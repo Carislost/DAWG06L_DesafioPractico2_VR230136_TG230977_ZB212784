@@ -40,3 +40,7 @@ function eliminarPaciente(clave) {
     mostrarPacientes();
     alert('Paciente eliminado exitosamente!');
 }
+
+function editarPaciente(clave) {
+    window.location.href = `teststorage.html?editar=${clave}`;
+}
