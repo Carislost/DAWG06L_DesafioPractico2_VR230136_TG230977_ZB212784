@@ -28,6 +28,7 @@ function mostrarPacientes() {
                 <p><strong>Teléfono:</strong> ${paciente.telefono}</p>
                 <p><strong>Motivo de consulta:</strong> ${paciente.motivoConsulta}</p>
                 <button class="btn btn-danger" onclick="eliminarPaciente('${clave}')">Eliminar</button>
+                <button class="btn btn-warning mr-2" onclick="editarPaciente('${clave}')">Editar</button>
             </div>
         `;
 
