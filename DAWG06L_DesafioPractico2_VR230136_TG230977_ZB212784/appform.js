@@ -60,7 +60,7 @@ function Validacion() {
         return;
     }
 
-    if (direccion.trim() === ""){
+    if (direccion.trim() === "") {
         alert("Ingrese una dirección válida")
         return;
     }
@@ -91,32 +91,93 @@ function Validacion() {
         return false;
     }
 
-    if (motivoConsulta.trim() ===""){
+    if (motivoConsulta.trim() === "") {
         alert("Ingrese algun motivo")
         return;
     }
 
-    GuardarPaciente();
     return true;
 }
 
 function GuardarPaciente() {
-    const paciente = new Paciente(
-        document.getElementById('NombrePaciente').value,
-        document.getElementById('FechaNac').value,
-        document.getElementById('Direccion').value,
-        document.getElementById('departamento').value,
-        document.getElementById('Municipio').value,
-        document.getElementById('TipoDocumento').value,
-        document.getElementById('NumDocumento').value,
-        document.getElementById('Telefono').value,
-        document.getElementById('Motivo').value
-    );
+    if (Validacion()) {
+        const paciente = new Paciente(
+            document.getElementById('NombrePaciente').value,
+            document.getElementById('FechaNac').value,
+            document.getElementById('Direccion').value,
+            document.getElementById('departamento').value,
+            document.getElementById('Municipio').value,
+            document.getElementById('TipoDocumento').value,
+            document.getElementById('NumDocumento').value,
+            document.getElementById('Telefono').value,
+            document.getElementById('Motivo').value
+        );
 
-    localStorage.setItem(paciente.numeroDocumento, JSON.stringify(paciente));
+        localStorage.setItem(paciente.numeroDocumento, JSON.stringify(paciente));
 
-    alert('Paciente registrado exitosamente!');
-    document.Pacientes.reset();
+        alert('Paciente registrado exitosamente!');
+        document.Pacientes.reset();
 
-    window.location.href = "visualizacion.html";
+        window.location.href = "visualizacion.html";
+    }
+}
+
+function cargarPacienteParaEditar(clave) {
+    const paciente = JSON.parse(localStorage.getItem(clave));
+
+    if (!paciente) {
+        console.error("No se encontró el paciente con la clave:", clave);
+        return;
+    }
+
+    console.log("Cargando paciente para editar:", paciente);
+
+    document.getElementById('NombrePaciente').value = paciente.nombre;
+    document.getElementById('FechaNac').value = paciente.fechaNacimiento;
+    document.getElementById('Direccion').value = paciente.direccion;
+    document.getElementById('departamento').value = paciente.departamento;
+    actualizarMunicipios();
+    document.getElementById('Municipio').value = paciente.municipio;
+    document.getElementById('TipoDocumento').value = paciente.tipoDocumento;
+    document.getElementById('NumDocumento').value = paciente.numeroDocumento;
+    document.getElementById('Telefono').value = paciente.telefono;
+    document.getElementById('Motivo').value = paciente.motivoConsulta;
+
+    const btnActualizar = document.createElement('button');
+    btnActualizar.type = 'button';
+    btnActualizar.className = 'btn btn-success';
+    btnActualizar.textContent = 'Actualizar';
+
+    btnActualizar.onclick = function () {
+        if (Validacion()) {
+            const pacienteActualizado = new Paciente(
+                document.getElementById('NombrePaciente').value,
+                document.getElementById('FechaNac').value,
+                document.getElementById('Direccion').value,
+                document.getElementById('departamento').value,
+                document.getElementById('Municipio').value,
+                document.getElementById('TipoDocumento').value,
+                document.getElementById('NumDocumento').value,
+                document.getElementById('Telefono').value,
+                document.getElementById('Motivo').value
+            );
+
+
+            localStorage.setItem(clave, JSON.stringify(pacienteActualizado));
+            alert('Paciente actualizado exitosamente!');
+            window.location.href = "visualizacion.html";
+        }
+    };
+
+    document.Pacientes.appendChild(btnActualizar);
+}
+
+window.onload = function () {
+    actualizarMunicipios();
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('editar')) {
+        cargarPacienteParaEditar(params.get('editar'));
+        document.getElementById('btnRegistrar').style.display = 'none';
+    }
 }
