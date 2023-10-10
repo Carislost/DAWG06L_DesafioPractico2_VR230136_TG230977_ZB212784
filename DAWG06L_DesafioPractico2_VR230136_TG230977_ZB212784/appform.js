@@ -94,16 +94,16 @@ function Validacion() {
         return;
     }
 
+    const FechaNacRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d\d$/;
+    if (!FechaNacRegex.test(FechaNac)) {
+        alert('Ingrese una Fecha valida(dd/mm/aaaa)');
+        return false;
+    }
+
     if (direccion.trim() === "") {
         alert("Ingrese una dirección válida")
         return;
     }
-
-    /*const FechaNacRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d\d$/;
-    if (!FechaNacRegex.test(FechaNac)) {
-        alert('Ingrese una Fecha valida(dd/mm/aaaa)');
-        return false;
-    }*/
 
     if (TipoDocumento === "DUI") {
         const duiRegex = /^\d{8}-\d{1}$/;
