@@ -91,7 +91,7 @@ function Validacion() {
 
     if (!isNaN(nombrePaciente) || nombrePaciente.trim() === "") {
         alert("Debe ingresar un nombre válido para el paciente");
-        return;
+        return false;
     }
 
     const FechaNacRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d\d$/;
@@ -102,7 +102,7 @@ function Validacion() {
 
     if (direccion.trim() === "") {
         alert("Ingrese una dirección válida")
-        return;
+        return false;
     }
 
     if (TipoDocumento === "DUI") {
@@ -127,7 +127,7 @@ function Validacion() {
 
     if (motivoConsulta.trim() === "") {
         alert("Ingrese algun motivo")
-        return;
+        return false;
     }
 
     return true;
